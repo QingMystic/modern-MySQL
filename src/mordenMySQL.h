@@ -10,21 +10,43 @@
 
 namespace mordenMySQL
 {
+	class MySQLException : public std::exception
+	{
+	private:
+		std::string message_;
+		int error_code_;
+
+	public:
+		MySQLException(const std::string& message, int error_code)
+			: message_(message), error_code_(error_code) {}
+
+		const char* what() const noexcept override
+		{
+			return message_.c_str();
+		}
+
+		int getErrorCode() const noexcept
+		{
+			return error_code_;
+		}
+	};
+
 	class DATABASE
 	{
 	private:
-		std::string user;
-		std::string password;
-		std::string host;
-		unsigned int port;
-		MYSQL* conn;
+		std::string user_;
+		std::string password_;
+		std::string host_;
+		unsigned int port_;
+		MYSQL* conn_;
+		MYSQL_RES* query_result_;
 
 	public:
 		DATABASE
 		(
-			std::string user,
-			std::string password,
-			std::string host,
+			const std::string& user,
+			const std::string& password,
+			const std::string& host,
 			unsigned int port
 		);
 		~DATABASE();
@@ -32,6 +54,16 @@ namespace mordenMySQL
 		void connect();
 		void disconnect();
 		bool isConnected();
+
+		void query(const std::string& sql);
+		std::vector<std::string> fetchRow();
+		std::vector<std::vector<std::string>> getResultVector();
+		unsigned long long getRowCount();
+		int getFieldCount();
+		std::vector<std::string> getFieldsName();
+
+		std::string getError();
+		int getErrorCode();
 	};
 
 	std::vector<DATABASE> database_list;
