@@ -23,6 +23,17 @@ mordenMySQL::DATABASE::DATABASE
 
 mordenMySQL::DATABASE::~DATABASE()
 {
+	if (in_transaction_ == true)
+	{
+		try
+		{
+			this->rollback();
+		}
+		catch (const MySQLException& e)
+		{
+			logs::error("Failed to rollback transaction in destructor: " + std::string(e.what()));
+		}
+	}
 	if (conn_ != nullptr)
 	{
 		this->disconnect();
@@ -200,6 +211,71 @@ std::vector<std::string> mordenMySQL::DATABASE::getFieldsName()
 		field_name_list.push_back(field->name);
 	}
 	return field_name_list;
+}
+
+unsigned long long mordenMySQL::DATABASE::execute(const std::string& sql)
+{
+	if (conn_ == nullptr)
+	{
+		logs::error("MySQL connection is not inited.");
+		throw MySQLException("MySQL connection is not inited.", 0);
+	}
+	if (query_result_ != nullptr)
+	{
+		mysql_free_result(query_result_);
+		query_result_ = nullptr;
+	}
+	if (mysql_query(conn_, sql.c_str()) != 0)
+	{
+		logs::error("Failed to execute query: " + std::string(mysql_error(conn_)));
+		throw MySQLException("Failed to execute query: " + std::string(mysql_error(conn_)), mysql_errno(conn_));
+	}
+	return mysql_affected_rows(conn_);
+}
+
+void mordenMySQL::DATABASE::beginTransaction()
+{
+	if (conn_ == nullptr)
+	{
+		logs::error("MySQL connection is not inited.");
+		throw MySQLException("MySQL connection is not inited.", 0);
+	}
+	if (mysql_autocommit(conn_, 0) != 0)
+	{
+		logs::error("Failed to begin transaction: " + std::string(mysql_error(conn_)));
+		throw MySQLException("Failed to begin transaction: " + std::string(mysql_error(conn_)), mysql_errno(conn_));
+	}
+	in_transaction_ = true;
+}
+
+void mordenMySQL::DATABASE::commit()
+{
+	if (conn_ == nullptr)
+	{
+		logs::error("MySQL connection is not inited.");
+		throw MySQLException("MySQL connection is not inited.", 0);
+	}
+	if (mysql_commit(conn_) != 0)
+	{
+		logs::error("Failed to commit transaction: " + std::string(mysql_error(conn_)));
+		throw MySQLException("Failed to commit transaction: " + std::string(mysql_error(conn_)), mysql_errno(conn_));
+	}
+	in_transaction_ = false;
+}
+
+void mordenMySQL::DATABASE::rollback()
+{
+	if (conn_ == nullptr)
+	{
+		logs::error("MySQL connection is not inited.");
+		throw MySQLException("MySQL connection is not inited.", 0);
+	}
+	if (mysql_rollback(conn_) != 0)
+	{
+		logs::error("Failed to rollback transaction: " + std::string(mysql_error(conn_)));
+		throw MySQLException("Failed to rollback transaction: " + std::string(mysql_error(conn_)), mysql_errno(conn_));
+	}
+	in_transaction_ = false;
 }
 
 std::string mordenMySQL::DATABASE::getError()

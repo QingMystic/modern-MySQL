@@ -40,6 +40,7 @@ namespace mordenMySQL
 		unsigned int port_;
 		MYSQL* conn_;
 		MYSQL_RES* query_result_;
+		bool in_transaction_ = false;
 
 	public:
 		DATABASE
@@ -61,6 +62,12 @@ namespace mordenMySQL
 		unsigned long long getRowCount();
 		int getFieldCount();
 		std::vector<std::string> getFieldsName();
+
+		unsigned long long execute(const std::string& sql);
+
+		void beginTransaction();
+		void commit();
+		void rollback();
 
 		std::string getError();
 		int getErrorCode();
