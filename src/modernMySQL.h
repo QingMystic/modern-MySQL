@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MORDENMYSQL_H
-#define MORDENMYSQL_H
+#ifndef MODERNMYSQL_H
+#define MODERNMYSQL_H
 
 #include <iostream>
 #include <string>
@@ -8,7 +8,7 @@
 #include <mysql/mysql.h>
 #include <logs/logs.h>
 
-namespace mordenMySQL
+namespace modernMySQL
 {
 	class MySQLException : public std::exception
 	{
@@ -76,4 +76,4 @@ namespace mordenMySQL
 	std::vector<DATABASE> database_list;
 }
 
-#endif // !MORDENMYSQL_H
+#endif // !MODERNMYSQL_H

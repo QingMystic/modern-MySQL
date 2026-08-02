@@ -1,17 +1,17 @@
-# morden MySQL
+# modern MySQL
 
-[![stars](https://badgen.net/github/stars/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/stargazers)
-[![forks](https://badgen.net/github/forks/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/network/members)
-[![issues](https://badgen.net/github/issues/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/issues)
-[![license](https://badgen.net/github/license/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/blob/main/LICENSE)
-[![release](https://badgen.net/github/release/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/releases)
-[![last commit](https://badgen.net/github/last-commit/QingMystic/morden-MySQL)](https://github.com/QingMystic/morden-MySQL/commits/main)
+[![stars](https://badgen.net/github/stars/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/stargazers)
+[![forks](https://badgen.net/github/forks/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/network/members)
+[![issues](https://badgen.net/github/issues/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/issues)
+[![license](https://badgen.net/github/license/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/blob/main/LICENSE)
+[![release](https://badgen.net/github/release/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/releases)
+[![last commit](https://badgen.net/github/last-commit/QingMystic/modern-MySQL)](https://github.com/QingMystic/modern-MySQL/commits/main)
 [![C++](https://badgen.net/badge/C++/17/blue?icon=github)](https://isocpp.org/)
-[![platform](https://badgen.net/badge/platform/Windows/lightgrey)](https://github.com/QingMystic/morden-MySQL)
+[![platform](https://badgen.net/badge/platform/Windows/lightgrey)](https://github.com/QingMystic/modern-MySQL)
 
 ## 项目介绍
 
-**morden-MySQL** 是一个基于 MySQL C API 的现代 C++ 封装库。它提供了简单、直观且类型安全的接口，用于执行SQL查询、处理结果集以及管理事务。
+**modern-MySQL** 是一个基于 MySQL C API 的现代 C++ 封装库。它提供了简单、直观且类型安全的接口，用于执行SQL查询、处理结果集以及管理事务。
 
 ### 主要特性
 *   **简单易用**：封装了复杂的 C API，提供 `query()`、`execute()` 等简洁方法。
@@ -23,7 +23,7 @@
 ---
 ## 项目依赖
 
-**morden-MySQL** 依赖于 MySQL C API 和 QingMystic logs。MySQL C API 支持到 8.0.46 版本，QingMystic logs 支持到 0.1.0 版本。在使用前需要确保项目中已安装 MySQL 开发库和 QingMystic logs。项目暂时只支持 Windows 平台，后续将计划支持 linux 平台。<br>
+**modern-MySQL** 依赖于 MySQL C API 和 QingMystic logs。MySQL C API 支持到 8.0.46 版本，QingMystic logs 支持到 0.1.0 版本。在使用前需要确保项目中已安装 MySQL 开发库和 QingMystic logs。项目暂时只支持 Windows 平台，后续将计划支持 linux 平台。<br>
 下载依赖项：
 *  [MySQL C API](https://dev.mysql.com/downloads/connector/c/)
 *  [QingMystic logs](https://github.com/QingMystic/QingMystic-logs)
@@ -32,14 +32,14 @@
 ## 快速开始
 ```cpp
 #include <iostream>
-#include "mordenMySQL.h"
+#include "modernMySQL.h"
 
 int main() 
 {
     try 
     {
         // 1. 创建数据库对象并连接
-        mordenMySQL::DATABASE db("your_user", "your_password", "127.0.0.1", 3306);
+        modernMySQL::DATABASE db("your_user", "your_password", "127.0.0.1", 3306);
         db.connect();
 
         // 2. 执行查询
