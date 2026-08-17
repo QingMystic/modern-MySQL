@@ -1,6 +1,6 @@
-#include "mordenMySQL.h"
+#include "modernMySQL.h"
 
-mordenMySQL::DATABASE::DATABASE
+modernMySQL::DATABASE::DATABASE
 (
 	const std::string& user,
 	const std::string& password,
@@ -21,7 +21,7 @@ mordenMySQL::DATABASE::DATABASE
 	}
 }
 
-mordenMySQL::DATABASE::~DATABASE()
+modernMySQL::DATABASE::~DATABASE()
 {
 	if (in_transaction_ == true)
 	{
@@ -40,7 +40,7 @@ mordenMySQL::DATABASE::~DATABASE()
 	}
 }
 
-void mordenMySQL::DATABASE::connect()
+void modernMySQL::DATABASE::connect()
 {
 	if (conn_ == nullptr)
 	{
@@ -67,7 +67,7 @@ void mordenMySQL::DATABASE::connect()
 	}
 }
 
-void mordenMySQL::DATABASE::disconnect()
+void modernMySQL::DATABASE::disconnect()
 {
 	if (conn_ != nullptr)
 	{
@@ -76,7 +76,7 @@ void mordenMySQL::DATABASE::disconnect()
 	}
 }
 
-bool mordenMySQL::DATABASE::isConnected()
+bool modernMySQL::DATABASE::isConnected()
 {
 	if (conn_ == nullptr)
 	{
@@ -85,7 +85,7 @@ bool mordenMySQL::DATABASE::isConnected()
 	return mysql_ping(conn_) == 0;
 }
 
-void mordenMySQL::DATABASE::query(const std::string& sql)
+void modernMySQL::DATABASE::query(const std::string& sql)
 {
 	if (conn_ == nullptr)
 	{
@@ -110,7 +110,7 @@ void mordenMySQL::DATABASE::query(const std::string& sql)
 	}
 }
 
-std::vector<std::string> mordenMySQL::DATABASE::fetchRow()
+std::vector<std::string> modernMySQL::DATABASE::fetchRow()
 {
 	if (query_result_ == nullptr)
 	{
@@ -143,7 +143,7 @@ std::vector<std::string> mordenMySQL::DATABASE::fetchRow()
 	return row_vector;
 }
 
-std::vector<std::vector<std::string>> mordenMySQL::DATABASE::getResultVector()
+std::vector<std::vector<std::string>> modernMySQL::DATABASE::getResultVector()
 {
 	std::vector<std::vector<std::string>> result_vector;
 	if (query_result_ == nullptr)
@@ -174,7 +174,7 @@ std::vector<std::vector<std::string>> mordenMySQL::DATABASE::getResultVector()
 	return result_vector;
 }
 
-unsigned long long mordenMySQL::DATABASE::getRowCount()
+unsigned long long modernMySQL::DATABASE::getRowCount()
 {
 	if (query_result_ == nullptr)
 	{
@@ -184,7 +184,7 @@ unsigned long long mordenMySQL::DATABASE::getRowCount()
 	return mysql_num_rows(query_result_);
 }
 
-int mordenMySQL::DATABASE::getFieldCount()
+int modernMySQL::DATABASE::getFieldCount()
 {
 	if (query_result_ == nullptr)
 	{
@@ -194,7 +194,7 @@ int mordenMySQL::DATABASE::getFieldCount()
 	return mysql_num_fields(query_result_);
 }
 
-std::vector<std::string> mordenMySQL::DATABASE::getFieldsName()
+std::vector<std::string> modernMySQL::DATABASE::getFieldsName()
 {
 	std::vector<std::string> field_name_list;
 	if (query_result_ == nullptr)
@@ -213,7 +213,7 @@ std::vector<std::string> mordenMySQL::DATABASE::getFieldsName()
 	return field_name_list;
 }
 
-unsigned long long mordenMySQL::DATABASE::execute(const std::string& sql)
+unsigned long long modernMySQL::DATABASE::execute(const std::string& sql)
 {
 	if (conn_ == nullptr)
 	{
@@ -233,7 +233,7 @@ unsigned long long mordenMySQL::DATABASE::execute(const std::string& sql)
 	return mysql_affected_rows(conn_);
 }
 
-void mordenMySQL::DATABASE::beginTransaction()
+void modernMySQL::DATABASE::beginTransaction()
 {
 	if (conn_ == nullptr)
 	{
@@ -248,7 +248,7 @@ void mordenMySQL::DATABASE::beginTransaction()
 	in_transaction_ = true;
 }
 
-void mordenMySQL::DATABASE::commit()
+void modernMySQL::DATABASE::commit()
 {
 	if (conn_ == nullptr)
 	{
@@ -263,7 +263,7 @@ void mordenMySQL::DATABASE::commit()
 	in_transaction_ = false;
 }
 
-void mordenMySQL::DATABASE::rollback()
+void modernMySQL::DATABASE::rollback()
 {
 	if (conn_ == nullptr)
 	{
@@ -278,12 +278,12 @@ void mordenMySQL::DATABASE::rollback()
 	in_transaction_ = false;
 }
 
-std::string mordenMySQL::DATABASE::getError()
+std::string modernMySQL::DATABASE::getError()
 {
 	return mysql_error(conn_);
 }
 
-int mordenMySQL::DATABASE::getErrorCode()
+int modernMySQL::DATABASE::getErrorCode()
 {
 	return mysql_errno(conn_);
 }
